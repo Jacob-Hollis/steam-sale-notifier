@@ -2,8 +2,10 @@ import bs4 as bs
 import urllib.request
 import xml
 import ssl
+from decimal import Decimal
 
 url_string = 'https://gg.deals/game/sea-of-thieves/'
+normal_price = 39.99
 
 #creating the connection and context
 ctx = ssl.create_default_context()
@@ -25,4 +27,7 @@ for div in soup.find_all('div', 'similar-deals-container items-with-top-border-d
         inner_div = wrapping_div.find('div', 'game-info-wrapper relative')
         price_div = inner_div.find('div', 'price-wrapper')
         price_span = price_div.find('span', 'price-inner game-price-current')
-        print (price_span.text)
+        price_decimal = float(price_span.text[1:])
+        on_sale = price_decimal < normal_price
+        print ('Price: $' + str(price_decimal))
+        print ('On Sale: ' + str(on_sale))
