@@ -18,6 +18,11 @@ soup = bs.BeautifulSoup(my_url, 'lxml')
 def remove_tags(text):
     return ''.join(xml.etree.ElementTree.fromstring(text).itertext())
 
-data_discounts = (soup.find_all('alt', {'Steam'}))
-data_body = (soup.find_all('span', {'class':'title'}))
-print (data_discounts)
+for div in soup.find_all('div', 'similar-deals-container items-with-top-border-desktop'):
+    img = div.find('img', alt=True)
+    if ("steam" in str(img).lower()):
+        wrapping_div = img.find_previous('div', 'relative hoverable-box d-flex flex-wrap flex-align-center game-item cta-full item game-deals-item game-list-item keep-unmarked-container')
+        inner_div = wrapping_div.find('div', 'game-info-wrapper relative')
+        price_div = inner_div.find('div', 'price-wrapper')
+        price_span = price_div.find('span', 'price-inner game-price-current')
+        print (price_span.text)
