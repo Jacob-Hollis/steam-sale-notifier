@@ -1,2 +1,9 @@
 # steam-sale-notifier
- little python console app to alert for a steam sale on a game
+Just a web parser that grabs the steam price for a certain game.
+
+##
+How To Use:
+
+##
+Updates:
+3/10 - Initial add
