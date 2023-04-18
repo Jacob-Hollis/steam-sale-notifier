@@ -2,6 +2,7 @@ import bs4 as bs
 import urllib.request
 import xml
 import ssl
+from win10toast import ToastNotifier
 
 url_string = 'https://gg.deals/game/sea-of-thieves/'
 normal_price = 39.99
@@ -25,7 +26,7 @@ for div in soup.find_all('div', 'similar-deals-container items-with-top-border-d
     #search for the store name which is in the alt tags
     img = div.find('img', alt=True)
     #if we find the name of our store in the img string, continue with the search
-    if ("steam" in str(img).lower()):
+    if ("newegg" in str(img).lower()):
         #find the div wrapping the image
         wrapping_div = img.find_previous('div', 'relative hoverable-box d-flex flex-wrap flex-align-center game-item cta-full item game-deals-item game-list-item keep-unmarked-container')
         #find the div that wraps the price
@@ -41,3 +42,13 @@ for div in soup.find_all('div', 'similar-deals-container items-with-top-border-d
 
         print ('Price: $' + str(price_decimal))
         print ('On Sale: ' + str(on_sale))
+
+        if (on_sale):
+            toast = ToastNotifier()
+            toast.show_toast(
+                "Sea of Thieves Sale on Steam",
+                "Sale Price is $" + str(price_decimal),
+                duration = 20,
+                icon_path = "icon.ico",
+                threaded = True,
+            )   
